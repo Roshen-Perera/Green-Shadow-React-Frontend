@@ -1,10 +1,19 @@
+import './App.css'
+import {createBrowserRouter, RouterProvider} from "react-router";
+import {RootLayout} from "./components/RootLayout.tsx";
+function App() {
+    const routes = createBrowserRouter([
+        {
+            path: '',
+            element : <RootLayout/>
+        },
+    ])
 
-
-export default function App() {
-    return(
+    return (
         <>
-
+            <RouterProvider router={routes} />
         </>
     )
-
 }
+
+export default App
