@@ -7,23 +7,23 @@ export function Navigation() {
                 <ul className="flex space-x-4">
                     <li>
                         <Link to="/field"
-                              className="text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Field</Link>
+                              className="text-gray-300 font-bold hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Field</Link>
                     </li>
                     <li>
                         <Link to="/crop"
-                              className="text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Crop</Link>
+                              className="text-gray-300 font-bold hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Crop</Link>
                     </li>
                     <li>
                         <Link to="/staff"
-                              className="text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Staff</Link>
+                              className="text-gray-300 font-bold hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Staff</Link>
                     </li>
                     <li>
                         <Link to="/vehicle"
-                              className="text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Vehicle</Link>
+                              className="text-gray-300 font-bold hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Vehicle</Link>
                     </li>
                     <li>
                         <Link to="/equipment"
-                              className="text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Equipments</Link>
+                              className="text-gray-300 font-bold hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Equipments</Link>
                     </li>
                 </ul>
             </nav>
