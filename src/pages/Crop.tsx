@@ -30,9 +30,8 @@ const cropFormConfig = {
             type: "select",
             placeholder: "Select Field ID",
             options: [
-                { value: "field1", label: "Field 1" },
-                { value: "field2", label: "Field 2" },
-                { value: "field3", label: "Field 3" },
+                { value: "F001", label: "F001" },
+                { value: "F002", label: "F002" }
             ]
         }
     ],
