@@ -22,9 +22,9 @@ export default function Login() {
                             <Label htmlFor="password">Password</Label>
                             <Input id="password" type="password" required/>
                         </div>
-                        <Button className="w-full">
-                            <Link to="/dashboard">Login</Link>
-                        </Button>
+                        <Link to="/dashboard">
+                            <Button className="w-full">Login</Button>
+                        </Link>
                         <div className="text-center mt-4">
                             <p className="text-sm text-gray-600">
                                 Don’t have an account?{" "}
