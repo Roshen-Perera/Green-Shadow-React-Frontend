@@ -9,12 +9,14 @@ import {Equipment} from "@/pages/Equipment.tsx";
 import {Vehicle} from "@/pages/Vehicle.tsx";
 import Login from "@/pages/Login.tsx";
 import Register from './pages/Register.tsx';
+import {Dashboard} from "@/pages/Dashboard.tsx";
 function App() {
     const routes = createBrowserRouter([
         {
             path: '',
             element : <RootLayout/>,
             children : [
+                { path : '/dashboard', element : <Dashboard/>},
                 { path : '/field', element : <Field/>},
                 { path : '/crop', element : <Crop/>},
                 { path : '/staff', element : <Staff/>},
