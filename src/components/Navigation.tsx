@@ -18,6 +18,10 @@ export function Navigation() {
                               className="text-gray-300 font-bold hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Staff</Link>
                     </li>
                     <li>
+                        <Link to="/log"
+                              className="text-gray-300 font-bold hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Log</Link>
+                    </li>
+                    <li>
                         <Link to="/vehicle"
                               className="text-gray-300 font-bold hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Vehicle</Link>
                     </li>

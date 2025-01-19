@@ -4,6 +4,7 @@ import {RootLayout} from "./components/RootLayout.tsx";
 import { Field } from './pages/Field.tsx';
 import { Crop } from './pages/Crop.tsx';
 import { Staff } from './pages/Staff.tsx';
+import {Log} from "@/pages/Log.tsx";
 function App() {
     const routes = createBrowserRouter([
         {
@@ -13,6 +14,7 @@ function App() {
                 { path : '/field', element : <Field/>},
                 { path : '/crop', element : <Crop/>},
                 { path : '/staff', element : <Staff/>},
+                { path : '/log', element : <Log/>},
             ]
         },
     ])
