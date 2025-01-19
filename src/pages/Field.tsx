@@ -9,11 +9,51 @@ import {
 } from "@/components/ui/table"
 import {Input} from "@/components/ui/input.tsx";
 import {GenericFormCard} from "@/components/ui/form-card.tsx";
+import {useDispatch, useSelector} from "react-redux";
+import {deleteField, saveFields} from "@/reducers/FieldSlice.ts";
+import {Fields} from "@/model/Fields.ts";
 
 export function Field() {
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    const fields = useSelector(state => state.field.value)
+    const dispatch = useDispatch()
+
     const handleSave = (formData: Record<string, string>) => {
         console.log('Form data:', formData);
+        dispatch(
+            saveFields({
+                fieldId: formData.fieldId,
+                fieldName: formData.fieldName,
+                fieldLocation: formData.fieldLocation,
+                fieldExtent: formData.fieldExtent,
+                fieldImage1: formData.fieldImage1,
+                fieldImage2: formData.fieldImage2,
+            })
+        )
     };
+
+    const handleDelete = (fieldId: string) => {
+        dispatch(deleteField(fieldId));
+    };
+
+    const handleUpdate = (formData: Record<string, string>) => {
+        console.log('Form data:', formData);
+        dispatch(
+            saveFields({
+                fieldId: formData.fieldId,
+                fieldName: formData.fieldName,
+                fieldLocation: formData.fieldLocation,
+                fieldExtent: formData.fieldExtent,
+                fieldImage1: formData.fieldImage1,
+                fieldImage2: formData.fieldImage2,
+            })
+        )
+    };
+
+
+
 
     const fieldFormConfig = {
         title: "Field",
@@ -28,47 +68,47 @@ export function Field() {
         ],
     };
 
-    const image = "https://img.freepik.com/premium-photo/summer-season-rye-plants-against-blue-sky-rye-field-with-green-unripe-rye-spikelets_252085-13110.jpg?semt=ais_hybrid"
-    const fields = [
-        {
-            fieldId: "F001",
-            fieldName: "North Meadow",
-            fieldExtent: "100 Acres",
-            fieldLocation: "Avissawella",
-            fieldImage1: "https://img.freepik.com/premium-photo/summer-season-rye-plants-against-blue-sky-rye-field-with-green-unripe-rye-spikelets_252085-13110.jpg?semt=ais_hybrid?",
-            fieldImage2: image+"?height=50&width=50",
-        },
-        {
-            fieldId: "F002",
-            fieldName: "South Pasture",
-            fieldExtent: "100 Acres",
-            fieldLocation: "Avissawella",
-            fieldImage1: image+"?height=50&width=50",
-            fieldImage2: image+"?height=50&width=50",
-        },
-        {
-            fieldId: "F003",
-            fieldName: "East Orchard",
-            fieldExtent: "100 Acres",
-            fieldLocation: "Avissawella",
-            fieldImage1: image+"?height=50&width=50",
-            fieldImage2: image+"?height=50&width=50",
-        },
-        {
-            fieldId: "F004",
-            fieldName: "West Vineyard",
-            fieldExtent: "100 Acres",
-            fieldLocation: "Avissawella",
-            fieldImage1: image+"?height=50&width=50",
-            fieldImage2: image+"?height=50&width=50",
-        },
-    ]
+    // const image = "https://img.freepik.com/premium-photo/summer-season-rye-plants-against-blue-sky-rye-field-with-green-unripe-rye-spikelets_252085-13110.jpg?semt=ais_hybrid"
+    // const fields = [
+    //     {
+    //         fieldId: "F001",
+    //         fieldName: "North Meadow",
+    //         fieldExtent: "100 Acres",
+    //         fieldLocation: "Avissawella",
+    //         fieldImage1: "https://img.freepik.com/premium-photo/summer-season-rye-plants-against-blue-sky-rye-field-with-green-unripe-rye-spikelets_252085-13110.jpg?semt=ais_hybrid?",
+    //         fieldImage2: image+"?height=50&width=50",
+    //     },
+    //     {
+    //         fieldId: "F002",
+    //         fieldName: "South Pasture",
+    //         fieldExtent: "100 Acres",
+    //         fieldLocation: "Avissawella",
+    //         fieldImage1: image+"?height=50&width=50",
+    //         fieldImage2: image+"?height=50&width=50",
+    //     },
+    //     {
+    //         fieldId: "F003",
+    //         fieldName: "East Orchard",
+    //         fieldExtent: "100 Acres",
+    //         fieldLocation: "Avissawella",
+    //         fieldImage1: image+"?height=50&width=50",
+    //         fieldImage2: image+"?height=50&width=50",
+    //     },
+    //     {
+    //         fieldId: "F004",
+    //         fieldName: "West Vineyard",
+    //         fieldExtent: "100 Acres",
+    //         fieldLocation: "Avissawella",
+    //         fieldImage1: image+"?height=50&width=50",
+    //         fieldImage2: image+"?height=50&width=50",
+    //     },
+    // ]
 
     return (
         <div className="pt-20 container mx-auto">
 
             <div className="flex justify-between items-center">
-                <GenericFormCard {...fieldFormConfig} onSave={handleSave} />
+                <GenericFormCard {...fieldFormConfig} onSave={handleSave} onUpdate={handleUpdate} />
 
                 <div className="inline-flex">
                     <Input className="mr-4"></Input>
@@ -91,7 +131,7 @@ export function Field() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {fields.map((field) => (
+                        {fields.map((field:Fields) => (
                             <TableRow key={field.fieldId}>
                                 <TableCell className="font-medium">{field.fieldId}</TableCell>
                                 <TableCell>{field.fieldName}</TableCell>
@@ -103,7 +143,14 @@ export function Field() {
                                 <TableCell className="columns-3xs">
                                     <img src={field.fieldImage2} alt={`${field.fieldName} Image 2`} width={50} height={50} />
                                 </TableCell>
-                                <TableCell className="columns-auto"><Button variant="destructive">Delete</Button></TableCell>
+                                <TableCell className="columns-auto">
+                                    <Button variant="destructive" onClick={() => handleDelete(field.fieldId)}>
+                                        Delete
+                                    </Button>
+                                </TableCell>
+                                <TableCell className="columns-auto">
+                                    <GenericFormCard {...fieldFormConfig} onSave={handleSave} onUpdate={handleUpdate} />
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

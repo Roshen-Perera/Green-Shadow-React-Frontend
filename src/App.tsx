@@ -10,6 +10,8 @@ import {Vehicle} from "@/pages/Vehicle.tsx";
 import Login from "@/pages/Login.tsx";
 import Register from './pages/Register.tsx';
 import {Dashboard} from "@/pages/Dashboard.tsx";
+import { Provider } from 'react-redux';
+import {store} from "@/store/Store.ts";
 function App() {
     const routes = createBrowserRouter([
         {
@@ -31,7 +33,9 @@ function App() {
 
     return (
         <>
-            <RouterProvider router={routes} />
+            <Provider store={store}>
+                <RouterProvider router={routes} />
+            </Provider>
         </>
     )
 }

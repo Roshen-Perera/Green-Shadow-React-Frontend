@@ -98,9 +98,7 @@ export function GenericFormCard({ title, description, fields, onSave }: GenericF
           </CardContent>
           <CardFooter className="flex justify-between">
             <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-            <Button onClick={handleSave}>Update</Button>
             <Button onClick={handleSave}>Save</Button>
-
           </CardFooter>
         </Card>
       </DialogContent>

@@ -11,8 +11,11 @@ const FieldSlice = createSlice({
         saveFields: (state, action: PayloadAction<Fields>) => {
             state.value.push(action.payload);
         },
+        deleteField(state, action: PayloadAction<string>) {
+            state.value = state.value.filter(field => field.fieldId !== action.payload);
+        },
     }
 })
 
-export const { saveFields } = FieldSlice.actions;
+export const { saveFields, deleteField } = FieldSlice.actions;
 export default FieldSlice.reducer;
