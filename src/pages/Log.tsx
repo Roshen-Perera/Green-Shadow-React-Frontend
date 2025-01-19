@@ -18,7 +18,7 @@ export function Log() {
     };
 
     const logFormConfig = {
-        title: "Crop",
+        title: "Log",
         description: "Enter the details for the new log.",
         fields: [
             { id: "logId", label: "Log ID", type: "text", placeholder: "Enter Log ID" },
