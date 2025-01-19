@@ -10,7 +10,7 @@ import {
 import {Input} from "@/components/ui/input.tsx";
 import {GenericFormCard} from "@/components/ui/form-card.tsx";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteField, saveFields} from "@/reducers/FieldSlice.ts";
+import {deleteField, saveFields, updateFields} from "@/reducers/FieldSlice.ts";
 import {Fields} from "@/model/Fields.ts";
 
 export function Field() {
@@ -34,14 +34,10 @@ export function Field() {
         )
     };
 
-    const handleDelete = (fieldId: string) => {
-        dispatch(deleteField(fieldId));
-    };
-
     const handleUpdate = (formData: Record<string, string>) => {
         console.log('Form data:', formData);
         dispatch(
-            saveFields({
+            updateFields({
                 fieldId: formData.fieldId,
                 fieldName: formData.fieldName,
                 fieldLocation: formData.fieldLocation,
@@ -52,8 +48,9 @@ export function Field() {
         )
     };
 
-
-
+    const handleDelete = (fieldId: string) => {
+        dispatch(deleteField(fieldId));
+    };
 
     const fieldFormConfig = {
         title: "Field",
@@ -68,47 +65,11 @@ export function Field() {
         ],
     };
 
-    // const image = "https://img.freepik.com/premium-photo/summer-season-rye-plants-against-blue-sky-rye-field-with-green-unripe-rye-spikelets_252085-13110.jpg?semt=ais_hybrid"
-    // const fields = [
-    //     {
-    //         fieldId: "F001",
-    //         fieldName: "North Meadow",
-    //         fieldExtent: "100 Acres",
-    //         fieldLocation: "Avissawella",
-    //         fieldImage1: "https://img.freepik.com/premium-photo/summer-season-rye-plants-against-blue-sky-rye-field-with-green-unripe-rye-spikelets_252085-13110.jpg?semt=ais_hybrid?",
-    //         fieldImage2: image+"?height=50&width=50",
-    //     },
-    //     {
-    //         fieldId: "F002",
-    //         fieldName: "South Pasture",
-    //         fieldExtent: "100 Acres",
-    //         fieldLocation: "Avissawella",
-    //         fieldImage1: image+"?height=50&width=50",
-    //         fieldImage2: image+"?height=50&width=50",
-    //     },
-    //     {
-    //         fieldId: "F003",
-    //         fieldName: "East Orchard",
-    //         fieldExtent: "100 Acres",
-    //         fieldLocation: "Avissawella",
-    //         fieldImage1: image+"?height=50&width=50",
-    //         fieldImage2: image+"?height=50&width=50",
-    //     },
-    //     {
-    //         fieldId: "F004",
-    //         fieldName: "West Vineyard",
-    //         fieldExtent: "100 Acres",
-    //         fieldLocation: "Avissawella",
-    //         fieldImage1: image+"?height=50&width=50",
-    //         fieldImage2: image+"?height=50&width=50",
-    //     },
-    // ]
-
     return (
         <div className="pt-20 container mx-auto">
 
             <div className="flex justify-between items-center">
-                <GenericFormCard {...fieldFormConfig} onSave={handleSave} onUpdate={handleUpdate} />
+                <GenericFormCard {...fieldFormConfig} onSave={handleSave} onUpdate={handleUpdate}  />
 
                 <div className="inline-flex">
                     <Input className="mr-4"></Input>
@@ -148,10 +109,8 @@ export function Field() {
                                         Delete
                                     </Button>
                                 </TableCell>
-                                <TableCell className="columns-auto">
-                                    <GenericFormCard {...fieldFormConfig} onSave={handleSave} onUpdate={handleUpdate} />
-                                </TableCell>
                             </TableRow>
+
                         ))}
                     </TableBody>
                 </Table>

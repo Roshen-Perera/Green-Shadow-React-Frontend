@@ -36,9 +36,11 @@ interface GenericFormCardProps {
   description: string;
   fields: FormField[];
   onSave: (formData: Record<string, string>) => void;
+  onUpdate: (formData: Record<string, string>) => void;
+
 }
 
-export function GenericFormCard({ title, description, fields, onSave }: GenericFormCardProps) {
+export function GenericFormCard({ title, description, fields, onSave, onUpdate }: GenericFormCardProps) {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState<Record<string, string>>({});
 
@@ -48,6 +50,12 @@ export function GenericFormCard({ title, description, fields, onSave }: GenericF
 
   const handleSave = () => {
     onSave(formData);
+    setFormData({});
+    setOpen(false);
+  };
+
+  const handleUpdate = () => {
+    onUpdate(formData);
     setFormData({});
     setOpen(false);
   };
@@ -98,6 +106,7 @@ export function GenericFormCard({ title, description, fields, onSave }: GenericF
           </CardContent>
           <CardFooter className="flex justify-between">
             <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button onClick={handleUpdate}>Update</Button>
             <Button onClick={handleSave}>Save</Button>
           </CardFooter>
         </Card>
