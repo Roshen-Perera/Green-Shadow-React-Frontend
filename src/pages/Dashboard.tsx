@@ -12,8 +12,8 @@ export function Dashboard(){
                         <div className="text-green-500 text-4xl mb-4">
                             <FontAwesomeIcon icon={faSeedling} />
                         </div>
-                        <h3 className="text-lg font-semibold text-gray-700">Fields</h3>
-                        <p className="text-2xl font-bold text-gray-900 mt-2" id="fieldCount">
+                        <h3 className="text-lg font-semibold text-gray-200">Fields</h3>
+                        <p className="text-2xl font-bold text-gray-400 mt-2" id="fieldCount">
                             0
                         </p>
                     </div>
@@ -23,8 +23,8 @@ export function Dashboard(){
                         <div className="text-green-500 text-4xl mb-4">
                             <FontAwesomeIcon icon={faLeaf} />
                         </div>
-                        <h3 className="text-lg font-semibold text-gray-700">Crops</h3>
-                        <p className="text-2xl font-bold text-gray-900 mt-2" id="cropCount">
+                        <h3 className="text-lg font-semibold text-gray-200">Crops</h3>
+                        <p className="text-2xl font-bold text-gray-400 mt-2" id="cropCount">
                             0
                         </p>
                     </div>
@@ -34,8 +34,8 @@ export function Dashboard(){
                         <div className="text-blue-500 text-4xl mb-4">
                             <FontAwesomeIcon icon={faUserFriends} />
                         </div>
-                        <h3 className="text-lg font-semibold text-gray-700">Staff</h3>
-                        <p className="text-2xl font-bold text-gray-900 mt-2" id="staffCount">
+                        <h3 className="text-lg font-semibold text-gray-200">Staff</h3>
+                        <p className="text-2xl font-bold text-gray-400 mt-2" id="staffCount">
                             0
                         </p>
                     </div>
@@ -45,8 +45,8 @@ export function Dashboard(){
                         <div className="text-yellow-500 text-4xl mb-4">
                             <FontAwesomeIcon icon={faTruck} />
                         </div>
-                        <h3 className="text-lg font-semibold text-gray-700">Vehicles</h3>
-                        <p className="text-2xl font-bold text-gray-900 mt-2" id="vehicleCount">
+                        <h3 className="text-lg font-semibold text-gray-200">Vehicles</h3>
+                        <p className="text-2xl font-bold text-gray-400 mt-2" id="vehicleCount">
                             0
                         </p>
                     </div>
@@ -56,8 +56,8 @@ export function Dashboard(){
                         <div className="text-red-500 text-4xl mb-4">
                             <FontAwesomeIcon icon={faTools} />
                         </div>
-                        <h3 className="text-lg font-semibold text-gray-700">Equipment</h3>
-                        <p className="text-2xl font-bold text-gray-900 mt-2" id="equipmentCount">
+                        <h3 className="text-lg font-semibold text-gray-200">Equipment</h3>
+                        <p className="text-2xl font-bold text-gray-400 mt-2" id="equipmentCount">
                             0
                         </p>
                     </div>
@@ -67,8 +67,8 @@ export function Dashboard(){
                         <div className="text-purple-500 text-4xl mb-4">
                             <FontAwesomeIcon icon={faBook} />
                         </div>
-                        <h3 className="text-lg font-semibold text-gray-700">Logs</h3>
-                        <p className="text-2xl font-bold text-gray-900 mt-2" id="logCount">
+                        <h3 className="text-lg font-semibold text-gray-200">Logs</h3>
+                        <p className="text-2xl font-bold text-gray-400 mt-2" id="logCount">
                             0
                         </p>
                     </div>

@@ -15,6 +15,9 @@ export function Navigation() {
                 <ul className="flex justify-between items-center">
                     <div className="flex space-x-4">
                         <li>
+                            <Link to="/dashboard" className="text-gray-300 font-bold hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Home</Link>
+                        </li>
+                        <li>
                             <Link to="/field" className="text-gray-300 font-bold hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Field</Link>
                         </li>
                         <li>
