@@ -92,11 +92,10 @@ export function GenericFormCard({ title, description, fields, onSave, onUpdate }
                           <SelectValue placeholder={field.placeholder} />
                         </SelectTrigger>
                         <SelectContent>
-                          {field.options?.map((option, idx) => ( // idx is the index of the current element in the array
-                            <SelectItem
-                              key={`${option.value}-${idx}`}
-                              value={option.value}
-                            ></SelectItem>
+                          {field.options?.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>

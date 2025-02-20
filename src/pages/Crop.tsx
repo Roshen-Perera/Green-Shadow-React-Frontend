@@ -11,8 +11,9 @@ import {Input} from "@/components/ui/input.tsx";
 import {GenericFormCard} from "@/components/ui/form-card.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {Crops} from "@/model/Crops.ts";
-import {deleteCrop, saveCrops, updateCrops} from "@/reducers/CropSlice.ts";
-
+import { addCrop, getCrop } from "@/reducers/CropSlice";
+import { AppDispatch } from "@/store/Store";
+import { useEffect, useState } from "react";
 // const crops = [
 //     {
 //         cropId: "C001",
@@ -27,44 +28,69 @@ import {deleteCrop, saveCrops, updateCrops} from "@/reducers/CropSlice.ts";
 
 export function Crop() {
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    const crops = useSelector(state => state.crop.value)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>();
+    const crops = useSelector((state: { crop: Crops[] }) => state.crop);
 
-    const handleSave = (formData: Record<string, string>) => {
+
+    const handleSave =  async (formData: Record<string, string>) => {
         console.log('Form data:', formData);
-        dispatch(
-            saveCrops({
-                cropId: formData.cropId,
-                cropName: formData.cropName,
-                cropScientificName: formData.cropScientificName,
-                cropCategory: formData.cropCategory,
-                cropSeason: formData.cropSeason,
-                cropImage1: formData.cropImage1,
-                cropFieldId: formData.cropFieldId,
-            })
-        )
+        
+        const cropImage1 = (
+            document.getElementById("cropImage1") as HTMLInputElement
+        ).files?.[0];
+
+        const newForm = new FormData();
+        newForm.append("cropId", formData.cropId);
+        newForm.append("cropName", formData.cropName);
+        newForm.append("cropScientificName", formData.cropScientificName);
+        newForm.append("cropCategory", formData.cropCategory);
+        newForm.append("cropSeason", formData.cropSeason);
+        newForm.append("cropFieldId", formData.cropFieldId);
+
+        if (cropImage1) newForm.append("cropImage1", cropImage1);
+
+        await dispatch(addCrop(newForm));
+        await dispatch(getCrop());
     };
 
     const handleUpdate = (formData: Record<string, string>) => {
         console.log('Form data:', formData);
-        dispatch(
-            updateCrops({
-                cropId: formData.cropId,
-                cropName: formData.cropName,
-                cropScientificName: formData.cropScientificName,
-                cropCategory: formData.cropCategory,
-                cropSeason: formData.cropSeason,
-                cropImage1: formData.cropImage1,
-                cropFieldId: formData.cropFieldId,
-            })
-        )
+        // dispatch(
+        //     updateCrops({
+        //         cropId: formData.cropId,
+        //         cropName: formData.cropName,
+        //         cropScientificName: formData.cropScientificName,
+        //         cropCategory: formData.cropCategory,
+        //         cropSeason: formData.cropSeason,
+        //         cropImage1: formData.cropImage1,
+        //         cropFieldId: formData.cropFieldId,
+        //     })
+        // )
     };
 
     const handleDelete = (cropId: string) => {
-        dispatch(deleteCrop(cropId));
+       // dispatch(deleteCrop(cropId));
     }
+
+    useEffect(() => {
+      if (crops.length === 0) dispatch(getCrop());
+    }, [dispatch, crops.length]);
+
+    const [fieldOptions, setFieldOptions] = useState([]);
+
+    useEffect(() => {
+        fetch("http://localhost:3000/field/get")
+          .then((response) => response.json())
+          .then((data) => {
+            const options = data.map((field: { fieldId: string }) => ({
+              value: field.fieldId,
+              label: field.fieldId,
+            }));
+            setFieldOptions(options);
+            console.log("Field options:", options);
+          })
+          .catch((error) => console.error("Error fetching fields:", error));
+    }, []);
 
     const cropFormConfig = {
         title: "Crop",
@@ -81,63 +107,79 @@ export function Crop() {
                 label: "Field ID",
                 type: "select",
                 placeholder: "Select Field ID",
-                options: [
-                    { value: "F001", label: "F001" },
-                    { value: "F002", label: "F002" }
-                ]
-            }
+                options: fieldOptions, // Dynamically populated options
+            },
         ],
     };
 
     return (
-        <div className="pt-20 container mx-auto">
+      <div className="pt-20 container mx-auto">
+        <div className="flex justify-between items-center">
+          <GenericFormCard
+            {...cropFormConfig}
+            onSave={handleSave}
+            onUpdate={handleUpdate}
+          />
 
-            <div className="flex justify-between items-center">
-                <GenericFormCard {...cropFormConfig} onSave={handleSave} onUpdate={handleUpdate} />
-
-                <div className="inline-flex">
-                    <Input className="mr-4"></Input>
-                    <Button className="bg-green-500 text-white hover:bg-green-600" >
-                        Search
-                    </Button>
-                </div>
-            </div>
-            <div className="pt-10">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className="w-[100px]">Crop ID</TableHead>
-                            <TableHead>Crop Name</TableHead>
-                            <TableHead>Crop Scientific Name</TableHead>
-                            <TableHead>Category</TableHead>
-                            <TableHead>Season</TableHead>
-                            <TableHead>Crop Image</TableHead>
-                            <TableHead>Field Id</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {crops.map((crop: Crops) => (
-                            <TableRow key={crop.cropId}>
-                                <TableCell className="font-medium">{crop.cropId}</TableCell>
-                                <TableCell>{crop.cropName}</TableCell>
-                                <TableCell>{crop.cropScientificName}</TableCell>
-                                <TableCell>{crop.cropCategory}</TableCell>
-                                <TableCell>{crop.cropSeason}</TableCell>
-                                <TableCell className="columns-3xs		">
-                                    <img src={crop.cropImage1} alt={`${crop.cropName} Image 1`} width={50} height={50} />
-                                </TableCell>
-                                <TableCell>{crop.cropFieldId}</TableCell>
-                                <TableCell className="columns-auto">
-                                    <Button variant="destructive" onClick={() => handleDelete(crop.cropId)}>
-                                        Delete
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
-
+          <div className="inline-flex">
+            <Input className="mr-4"></Input>
+            <Button className="bg-green-500 text-white hover:bg-green-600">
+              Search
+            </Button>
+          </div>
         </div>
+        <div className="pt-10">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px]">Crop ID</TableHead>
+                <TableHead>Crop Name</TableHead>
+                <TableHead>Crop Scientific Name</TableHead>
+                <TableHead>Category</TableHead>
+                <TableHead>Season</TableHead>
+                <TableHead>Crop Image</TableHead>
+                <TableHead>Field Id</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {
+                crops
+                  .filter(
+                    (crop: Crops, index, self) =>
+                      crop &&
+                      index ===
+                        self.findIndex((c: Crops) => c?.cropId === crop?.cropId)
+                  )
+                  .map((crop: Crops) => (
+                    <TableRow key={crop.cropId}>
+                      <TableCell className="font-medium">
+                        {crop.cropId}
+                      </TableCell>
+                      <TableCell>{crop.cropName}</TableCell>
+                      <TableCell>{crop.cropScientificName}</TableCell>
+                      <TableCell>{crop.cropCategory}</TableCell>
+                      <TableCell>{crop.cropSeason}</TableCell>
+                      <TableCell>
+                        <img
+                          src={`data:image/png;base64,${crop.cropImage1}`}
+                          width="140"
+                        />
+                      </TableCell>
+                      <TableCell>{crop.cropFieldId}</TableCell>
+                      <TableCell>
+                        <Button
+                          variant="destructive"
+                          onClick={() => handleDelete(crop.cropId)}
+                        >
+                          Delete
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                };
+            </TableBody>
+          </Table>
+        </div>
+      </div>
     );
 }
