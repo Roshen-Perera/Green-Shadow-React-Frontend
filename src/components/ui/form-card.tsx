@@ -60,6 +60,8 @@ export function GenericFormCard({ title, description, fields, onSave, onUpdate }
     setOpen(false);
   };
 
+  
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -74,44 +76,55 @@ export function GenericFormCard({ title, description, fields, onSave, onUpdate }
           <CardContent>
             <form onSubmit={(e) => e.preventDefault()}>
               <div className="flex flex-col space-y-4">
-                {fields.map((field) => (
-                    <div key={field.id} className="flex flex-col space-y-1.5">
-                      <Label htmlFor={field.id}>{field.label}</Label>
-                      {field.type === 'select' ? (
-                          <Select onValueChange={(value) => handleInputChange(field.id, value)}>
-                            <SelectTrigger id={field.id}>
-                              <SelectValue placeholder={field.placeholder}/>
-                            </SelectTrigger>
-                            <SelectContent>
-                              {field.options?.map((option) => (
-                                  <SelectItem key={option.value} value={option.value}>
-                                    {option.label}
-                                  </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                      ) : (
-                          <Input
-                              id={field.id}
-                              type={field.type}
-                              placeholder={field.placeholder}
-                              value={formData[field.id] || ''}
-                              onChange={(e) => handleInputChange(field.id, e.target.value)}
-                          />
-                      )}
-                    </div>
+                {fields.map((field, index) => (
+                  <div
+                    key={`${field.id}-${index}`}
+                    className="flex flex-col space-y-1.5"
+                  >
+                    <Label htmlFor={field.id}>{field.label}</Label>
+                    {field.type === "select" ? (
+                      <Select
+                        onValueChange={(value) =>
+                          handleInputChange(field.id, value)
+                        }
+                      >
+                        <SelectTrigger id={field.id}>
+                          <SelectValue placeholder={field.placeholder} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {field.options?.map((option, idx) => ( // idx is the index of the current element in the array
+                            <SelectItem
+                              key={`${option.value}-${idx}`}
+                              value={option.value}
+                            ></SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <Input
+                        id={field.id}
+                        type={field.type}
+                        placeholder={field.placeholder}
+                        value={formData[field.id] || ""}
+                        onChange={(e) =>
+                          handleInputChange(field.id, e.target.value)
+                        }
+                      />
+                    )}
+                  </div>
                 ))}
               </div>
             </form>
           </CardContent>
           <CardFooter className="flex justify-between">
-            <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
             <Button onClick={handleUpdate}>Update</Button>
             <Button onClick={handleSave}>Save</Button>
           </CardFooter>
         </Card>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
-

@@ -18,7 +18,7 @@ export default function Login() {
                             <Label htmlFor="email">Email</Label>
                             <Input id="email" type="email" placeholder="m@example.com" required/>
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-2 pb-5">
                             <Label htmlFor="password">Password</Label>
                             <Input id="password" type="password" required/>
                         </div>

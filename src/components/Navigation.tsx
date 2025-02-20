@@ -29,12 +29,6 @@ export function Navigation() {
                         <li>
                             <Link to="/log" className="text-gray-300 font-bold hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Log</Link>
                         </li>
-                        <li>
-                            <Link to="/vehicle" className="text-gray-300 font-bold hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Vehicle</Link>
-                        </li>
-                        <li>
-                            <Link to="/equipment" className="text-gray-300 font-bold hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">Equipments</Link>
-                        </li>
                     </div>
                     <li>
                         <Link to="/login" className="text-gray-300 font-bold hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md">

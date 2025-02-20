@@ -92,7 +92,7 @@ export function Staff() {
         <div className="pt-20 container mx-auto">
 
             <div className="flex justify-between items-center">
-                <GenericFormCard {...staffFormConfig} onSave={handleSave} />
+                <GenericFormCard {...staffFormConfig} onSave={handleSave} onUpdate={handleSave} />
 
                 <div className="inline-flex">
                     <Input className="mr-4"></Input>

@@ -73,7 +73,7 @@ export function Log() {
         <div className="pt-20 container mx-auto">
 
             <div className="flex justify-between items-center">
-                <GenericFormCard {...logFormConfig} onSave={handleSave} />
+                <GenericFormCard {...logFormConfig} onSave={handleSave} onUpdate={handleSave} />
 
                 <div className="inline-flex">
                     <Input className="mr-4"></Input>
