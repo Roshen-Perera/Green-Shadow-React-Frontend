@@ -13,6 +13,7 @@ import { AppDispatch } from "@/store/Store";
 import { useDispatch, useSelector } from "react-redux";
 import Staffs from "@/model/Staffs";
 import { addStaff, getStaff } from "@/reducers/StaffSlice";
+import { useEffect } from "react";
 
 export function Staff() {
 
@@ -46,6 +47,12 @@ export function Staff() {
         ));
         await dispatch(getStaff());
     };
+
+    
+
+    useEffect(() => {
+      if (staffs.length === 0) dispatch(getStaff());
+    }, [dispatch, staffs.length]);
 
     const staffFormConfig = {
       title: "Staff",
@@ -190,8 +197,14 @@ export function Staff() {
                 <TableHead></TableHead>
               </TableRow>
             </TableHeader>
-            {/* <TableBody>
-              {staffs.map((staff) => (
+            <TableBody>
+              {staffs
+              .filter(
+                (staff: Staffs, index, self) =>
+                  index ===
+                  self.findIndex((s: Staffs) => s.staffId === staff.staffId)
+      )
+              .map((staff: Staffs) => (
                 <TableRow key={staff.staffId}>
                   <TableCell className="font-medium">{staff.staffId}</TableCell>
                   <TableCell>{staff.firstName}</TableCell>
@@ -212,7 +225,7 @@ export function Staff() {
                   </TableCell>
                 </TableRow>
               ))}
-            </TableBody> */}
+            </TableBody>
           </Table>
         </div>
       </div>
