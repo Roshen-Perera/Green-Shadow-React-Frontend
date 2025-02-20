@@ -11,11 +11,11 @@ const api = axios.create({
 
 export const addStaff = createAsyncThunk(
   "Staff/addStaff",
-  async (Staff: FormData) => {
+  async (Staff: Staffs) => {
     try {
       const response = await api.post("/staff/add", Staff, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
       });
       alert("Staff Added Successfully");

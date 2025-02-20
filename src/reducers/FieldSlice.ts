@@ -14,9 +14,6 @@ export const addField = createAsyncThunk(
     async (Field: FormData) => { // What happens here? Here we are sending a FormData object to the server. FormData is a built-in object in JavaScript that allows you to send data to the server in the form of key-value pairs. It is used to send files to the server. In this case, we are sending the fieldId, fieldName, fieldLocation, fieldExtent, fieldImage1, and fieldImage2 to the server. The server will then process this data and return a response. The response will be stored in the action.payload variable. The action.payload variable will then be used to update the state in the reducer.
       try {
             const response = await api.post('/field/add', Field, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                }
             })
             return response.data.message;
         } catch (error) {
