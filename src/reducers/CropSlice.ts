@@ -12,12 +12,12 @@ export const addCrop = createAsyncThunk(
   "Crop/addCrop",
   async (Crop: FormData) => {
     try {
-        const response = await api.post("/crop/add", Crop, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        alert("Crop Added Successfully");
+      const response = await api.post("/crop/add", Crop, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      alert("Crop Added Successfully");
       return response.data.message;
     } catch (error) {
       alert("Failed to add crop");
@@ -26,19 +26,44 @@ export const addCrop = createAsyncThunk(
   }
 );
 
-
-
-export const getCrop = createAsyncThunk("Crop/getCrop", 
-  async () => {
+export const deleteCrop = createAsyncThunk(
+  "Crop/deleteCrop",
+  async (cropId: string) => {
     try {
-      const response = await api.get("/crop/get");
-      console.log("response", response.data);
+      const response = await api.delete(`/crop/delete/${cropId}`);
       return response.data;
     } catch (error) {
       return console.log("error", error);
     }
   }
 );
+
+export const updateCrop = createAsyncThunk(
+  "Crop/updateCrop",
+  async (Crop: FormData) => {
+    try {
+      const cropId = Crop.get("cropId") as string;
+      const response = await api.put(`/crop/update/${cropId}`, Crop, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return console.log("error", error);
+    }
+  }
+);
+
+export const getCrop = createAsyncThunk("Crop/getCrop", async () => {
+  try {
+    const response = await api.get("/crop/get");
+    console.log("response", response.data);
+    return response.data;
+  } catch (error) {
+    return console.log("error", error);
+  }
+});
 
 const CropSlice = createSlice({
   name: "Crop",
@@ -60,6 +85,8 @@ const CropSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+
+    // Add crop
     builder
       .addCase(addCrop.fulfilled, (state, action) => {
         state.push(action.payload);
@@ -70,6 +97,41 @@ const CropSlice = createSlice({
       .addCase(addCrop.pending, (state, action) => {
         console.log("Adding crop", action.payload);
       });
+
+      // Delete crop
+    builder
+      .addCase(deleteCrop.fulfilled, (state, action) => {
+        state = state.filter((crop) => crop.cropId !== action.payload);
+      })
+      .addCase(deleteCrop.rejected, (state, action) => {
+        console.log("Failed to delete crop", action.payload);
+      })
+      .addCase(deleteCrop.pending, (state, action) => {
+        console.log("Deleting crop", action.payload);
+      });
+
+      // Update crop
+    builder
+      .addCase(updateCrop.fulfilled, (state, action) => {
+        state.map((Crop) => {
+          if (Crop.cropId === action.payload.cropId) {
+            Crop.cropName = action.payload.cropName;
+            Crop.cropScientificName = action.payload.cropScientificName;
+            Crop.cropCategory = action.payload.cropCategory;
+            Crop.cropSeason = action.payload.cropSeason;
+            Crop.cropFieldId = action.payload.cropFieldId;
+            Crop.cropImage1 = action.payload.cropImage1;
+          }
+        });
+      })
+      .addCase(updateCrop.rejected, (state, action) => {
+        console.log("Failed to update crop", action.payload);
+      })
+      .addCase(updateCrop.pending, (state, action) => {
+        console.log("Updating crop", action.payload);
+      });
+
+      // Get crop
     builder
       .addCase(getCrop.fulfilled, (state, action) => {
         return action.payload;

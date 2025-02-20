@@ -11,9 +11,10 @@ import {Input} from "@/components/ui/input.tsx";
 import {GenericFormCard} from "@/components/ui/form-card.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {Crops} from "@/model/Crops.ts";
-import { addCrop, getCrop } from "@/reducers/CropSlice";
+import { addCrop, deleteCrop, getCrop } from "@/reducers/CropSlice";
 import { AppDispatch } from "@/store/Store";
 import { useEffect, useState } from "react";
+import { updateField } from "@/reducers/FieldSlice";
 // const crops = [
 //     {
 //         cropId: "C001",
@@ -53,23 +54,36 @@ export function Crop() {
         await dispatch(getCrop());
     };
 
-    const handleUpdate = (formData: Record<string, string>) => {
+    const handleUpdate = async (formData: Record<string, string>) => {
         console.log('Form data:', formData);
-        // dispatch(
-        //     updateCrops({
-        //         cropId: formData.cropId,
-        //         cropName: formData.cropName,
-        //         cropScientificName: formData.cropScientificName,
-        //         cropCategory: formData.cropCategory,
-        //         cropSeason: formData.cropSeason,
-        //         cropImage1: formData.cropImage1,
-        //         cropFieldId: formData.cropFieldId,
-        //     })
-        // )
+        const cropImage1 = (
+          document.getElementById("cropImage1") as HTMLInputElement
+        ).files?.[0];
+
+        const newForm = new FormData();
+        newForm.append("cropId", formData.cropId);
+        newForm.append("cropName", formData.cropName);
+        newForm.append("cropScientificName", formData.cropScientificName);
+        newForm.append("cropCategory", formData.cropCategory);
+        newForm.append("cropSeason", formData.cropSeason);
+        newForm.append("cropFieldId", formData.cropFieldId);
+
+        if (cropImage1) newForm.append("cropImage1", cropImage1);
+
+        await dispatch(updateField(newForm));
+        await dispatch(getCrop());
     };
 
-    const handleDelete = (cropId: string) => {
-       // dispatch(deleteCrop(cropId));
+    const handleDelete = async (cropId: string) => {
+        const result = confirm("Want to delete?");
+        if (result) {
+          await dispatch(deleteCrop(cropId));
+        } else {
+            return;
+        }
+
+       
+       await dispatch(getCrop());
     }
 
     useEffect(() => {
@@ -139,6 +153,7 @@ export function Crop() {
                 <TableHead>Season</TableHead>
                 <TableHead>Crop Image</TableHead>
                 <TableHead>Field Id</TableHead>
+                <TableHead></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
