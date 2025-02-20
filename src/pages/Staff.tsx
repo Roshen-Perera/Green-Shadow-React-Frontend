@@ -12,7 +12,7 @@ import {GenericFormCard} from "@/components/ui/form-card.tsx";
 import { AppDispatch } from "@/store/Store";
 import { useDispatch, useSelector } from "react-redux";
 import Staffs from "@/model/Staffs";
-import { addStaff, getStaff } from "@/reducers/StaffSlice";
+import { addStaff, deleteStaff, getStaff, updateStaff } from "@/reducers/StaffSlice";
 import { useEffect } from "react";
 
 export function Staff() {
@@ -48,7 +48,37 @@ export function Staff() {
         await dispatch(getStaff());
     };
 
-    
+    const handleDelete = async (staffId: string) => {
+        await dispatch(deleteStaff(staffId));
+        await dispatch(getStaff());
+    };
+
+    const handleUpdate = async (formData: Record<string, string>) => {
+      console.log("Form data:", formData);
+
+      await dispatch(
+        updateStaff({
+          staffId: formData.staffId,
+          firstName: formData.firstName,
+          lastName: formData.secondName,
+          designation: formData.designation,
+          gender: formData.gender,
+          dob: formData.dob,
+          joinedDate: formData.joinedDate,
+          addressLine1: formData.addressLine1,
+          addressLine2: formData.addressLine2,
+          addressLine3: formData.addressLine3,
+          addressLine4: formData.addressLine4,
+          addressLine5: formData.addressLine5,
+          contactNo: formData.contactNo,
+          email: formData.email,
+          role: formData.role,
+          staffFieldId: formData.staffFieldId,
+        })
+      );
+      await dispatch(getStaff());
+    };
+
 
     useEffect(() => {
       if (staffs.length === 0) dispatch(getStaff());
@@ -166,7 +196,7 @@ export function Staff() {
           <GenericFormCard
             {...staffFormConfig}
             onSave={handleSave}
-            onUpdate={handleSave}
+            onUpdate={handleUpdate}
           />
 
           <div className="inline-flex">
@@ -199,32 +229,39 @@ export function Staff() {
             </TableHeader>
             <TableBody>
               {staffs
-              .filter(
-                (staff: Staffs, index, self) =>
-                  index ===
-                  self.findIndex((s: Staffs) => s.staffId === staff.staffId)
-      )
-              .map((staff: Staffs) => (
-                <TableRow key={staff.staffId}>
-                  <TableCell className="font-medium">{staff.staffId}</TableCell>
-                  <TableCell>{staff.firstName}</TableCell>
-                  <TableCell>{staff.lastName}</TableCell>
-                  <TableCell>{staff.designation}</TableCell>
-                  <TableCell>{staff.gender}</TableCell>
-                  <TableCell>{staff.dob}</TableCell>
-                  <TableCell>{staff.joinedDate}</TableCell>
-                  <TableCell>{staff.addressLine1}</TableCell>
-                  <TableCell>{staff.addressLine2}</TableCell>
-                  <TableCell>{staff.addressLine3}</TableCell>
-                  <TableCell>{staff.addressLine4}</TableCell>
-                  <TableCell>{staff.addressLine5}</TableCell>
-                  <TableCell>{staff.contactNo}</TableCell>
-                  <TableCell>{staff.email}</TableCell>
-                  <TableCell className="columns-auto">
-                    <Button variant="destructive">Delete</Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+                .filter(
+                  (staff: Staffs, index, self) =>
+                    index ===
+                    self.findIndex((s: Staffs) => s.staffId === staff.staffId)
+                )
+                .map((staff: Staffs) => (
+                  <TableRow key={staff.staffId}>
+                    <TableCell className="font-medium">
+                      {staff.staffId}
+                    </TableCell>
+                    <TableCell>{staff.firstName}</TableCell>
+                    <TableCell>{staff.lastName}</TableCell>
+                    <TableCell>{staff.designation}</TableCell>
+                    <TableCell>{staff.gender}</TableCell>
+                    <TableCell>{staff.dob}</TableCell>
+                    <TableCell>{staff.joinedDate}</TableCell>
+                    <TableCell>{staff.addressLine1}</TableCell>
+                    <TableCell>{staff.addressLine2}</TableCell>
+                    <TableCell>{staff.addressLine3}</TableCell>
+                    <TableCell>{staff.addressLine4}</TableCell>
+                    <TableCell>{staff.addressLine5}</TableCell>
+                    <TableCell>{staff.contactNo}</TableCell>
+                    <TableCell>{staff.email}</TableCell>
+                    <TableCell className="columns-auto">
+                      <Button
+                        variant="destructive"
+                        onClick={() => handleDelete(staff.staffId)}
+                      >
+                        Delete
+                      </Button>{" "}
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </div>

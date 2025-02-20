@@ -41,10 +41,9 @@ export const deleteStaff = createAsyncThunk(
 
 export const updateStaff = createAsyncThunk(
   "Staff/updateStaff",
-  async (Staff: FormData) => {
+  async (Staff: Staffs) => {
     try {
-      const StaffId = Staff.get("staffId") as string;
-      const response = await api.put(`/staff/update/${StaffId}`, Staff, {
+      const response = await api.put(`/staff/update/${Staff.staffId}`, Staff, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
