@@ -1,4 +1,4 @@
-export default class Staff {
+export default class Staffs {
     staffId!: string;
     firstName!: string;
     lastName!: string;

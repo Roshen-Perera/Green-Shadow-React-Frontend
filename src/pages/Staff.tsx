@@ -13,7 +13,7 @@ import {GenericFormCard} from "@/components/ui/form-card.tsx";
 export function Staff() {
     const handleSave = (formData: Record<string, string>) => {
         console.log('Form data:', formData);
-        // Here you would typically send this data to your backend
+        
     };
 
     const staffFormConfig = {
