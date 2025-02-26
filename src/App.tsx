@@ -4,7 +4,6 @@ import {RootLayout} from "./components/RootLayout.tsx";
 import { Field } from './pages/Field.tsx';
 import { Crop } from './pages/Crop.tsx';
 import { Staff } from './pages/Staff.tsx';
-import {Log} from "@/pages/Log.tsx";
 import Login from "@/pages/Login.tsx";
 import Register from './pages/Register.tsx';
 import {Dashboard} from "@/pages/Dashboard.tsx";
@@ -20,7 +19,6 @@ function App() {
                 { path : '/field', element : <Field/>},
                 { path : '/crop', element : <Crop/>},
                 { path : '/staff', element : <Staff/>},
-                { path : '/log', element : <Log/>},
                 { path : '/login', element : <Login/>},
                 { path : '/signup', element : <Register/>},
             ]
