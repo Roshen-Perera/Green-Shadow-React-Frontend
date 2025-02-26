@@ -92,19 +92,25 @@ export function Crop() {
 
     const [fieldOptions, setFieldOptions] = useState([]);
 
-    useEffect(() => {
-        fetch("http://localhost:3000/field/get")
-          .then((response) => response.json())
-          .then((data) => {
-            const options = data.map((field: { fieldId: string }) => ({
-              value: field.fieldId,
-              label: field.fieldId,
-            }));
-            setFieldOptions(options);
-            console.log("Field options:", options);
-          })
-          .catch((error) => console.error("Error fetching fields:", error));
-    }, []);
+useEffect(() => {
+  const token = localStorage.getItem("jwt_token");
+  fetch("http://localhost:3000/field/get", {
+    method: "GET",
+    headers: {
+      Authorization: token ? `Bearer ${token}` : "", // Add your token if required
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      const options = data.map((field: { fieldId: string }) => ({
+        value: field.fieldId,
+        label: field.fieldId,
+      }));
+      setFieldOptions(options);
+      console.log("Field options:", options);
+    })
+    .catch((error) => console.error("Error fetching fields:", error));
+}, []);
 
     const cropFormConfig = {
         title: "Crop",

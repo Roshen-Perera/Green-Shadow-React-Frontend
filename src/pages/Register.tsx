@@ -8,11 +8,10 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/Store";
 import { useState } from "react";
-import User from "@/model/User";
 import { registerUser } from "@/reducers/UserSlice";
 
 export default function Register() {
@@ -21,6 +20,7 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
   function handleRegister() {
     const user = {
       username: username,
@@ -66,16 +66,19 @@ export default function Register() {
               <div className="text-center mt-4">
                 <p className="text-sm text-gray-600">
                   Already have an account?{" "}
-                  <Link to="/login" className="text-blue-600 hover:underline">
+                  <div
+                    onClick={() => navigate("/")}
+                    style={{ cursor: "pointer" }}
+                    className="text-blue-600 hover:underline"
+                  >
                     Sign In
-                  </Link>
+                  </div>
                 </p>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
-      
     </>
   );
 }

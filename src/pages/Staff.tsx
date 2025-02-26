@@ -231,8 +231,9 @@ export function Staff() {
               {staffs
                 .filter(
                   (staff: Staffs, index, self) =>
+                    staff &&
                     index ===
-                    self.findIndex((s: Staffs) => s.staffId === staff.staffId)
+                    self.findIndex((s: Staffs) => s?.staffId === staff?.staffId)
                 )
                 .map((staff: Staffs) => (
                   <TableRow key={staff.staffId}>

@@ -47,7 +47,6 @@ export function Field() {
             newForm
         ));
         await dispatch(getField());
-        alert("Field Added Successfully");
         
     };
 
@@ -130,8 +129,9 @@ export function Field() {
               {fields
                 .filter(
                   (field: Fields, index, self) =>
+                    field &&
                     index ===
-                    self.findIndex((f: Fields) => f.fieldId === field.fieldId)
+                    self.findIndex((f: Fields) => f?.fieldId === field?.fieldId)
                 )
                 .map((field: Fields) => (
                   <TableRow key={field.fieldId}>

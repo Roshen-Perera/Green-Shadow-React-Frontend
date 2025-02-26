@@ -12,9 +12,11 @@ const api = axios.create({
 export const addStaff = createAsyncThunk(
   "Staff/addStaff",
   async (Staff: Staffs) => {
+    const token = localStorage.getItem("jwt_token");
     try {
       const response = await api.post("/staff/add", Staff, {
         headers: {
+          Authorization: token ? `Bearer ${token}` : "",
           "Content-Type": "application/json",
         },
       });
@@ -30,8 +32,13 @@ export const addStaff = createAsyncThunk(
 export const deleteStaff = createAsyncThunk(
   "Staff/deleteStaff",
   async (StaffId: string) => {
+    const token = localStorage.getItem("jwt_token");
     try {
-      const response = await api.delete(`/staff/delete/${StaffId}`);
+      const response = await api.delete(`/staff/delete/${StaffId}`,{
+        headers: {
+          Authorization: token ? `Bearer ${token}` : "",
+      },
+      });
       return response.data;
     } catch (error) {
       return console.log("error", error);
@@ -42,10 +49,12 @@ export const deleteStaff = createAsyncThunk(
 export const updateStaff = createAsyncThunk(
   "Staff/updateStaff",
   async (Staff: Staffs) => {
+    const token = localStorage.getItem("jwt_token");
     try {
       const response = await api.put(`/staff/update/${Staff.staffId}`, Staff, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: token ? `Bearer ${token}` : "",
         },
       });
       return response.data;
@@ -56,8 +65,13 @@ export const updateStaff = createAsyncThunk(
 );
 
 export const getStaff = createAsyncThunk("Staff/getStaff", async () => {
+  const token = localStorage.getItem("jwt_token");
   try {
-    const response = await api.get("/staff/get");
+    const response = await api.get("/staff/get", {
+      headers:{
+        Authorization: token ? `Bearer ${token}` : "",
+      }
+    });
     console.log("response", response.data);
     return response.data;
   } catch (error) {

@@ -11,10 +11,13 @@ const api = axios.create({
 export const addCrop = createAsyncThunk(
   "Crop/addCrop",
   async (Crop: FormData) => {
+    const token = localStorage.getItem("jwt_token");
     try {
       const response = await api.post("/crop/add", Crop, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: token ? `Bearer ${token}` : "",
+
         },
       });
       alert("Crop Added Successfully");
@@ -29,8 +32,14 @@ export const addCrop = createAsyncThunk(
 export const deleteCrop = createAsyncThunk(
   "Crop/deleteCrop",
   async (cropId: string) => {
+    const token = localStorage.getItem("jwt_token");
     try {
-      const response = await api.delete(`/crop/delete/${cropId}`);
+      const response = await api.delete(`/crop/delete/${cropId}`,{
+        headers: {
+          Authorization: token ? `Bearer ${token}` : "",
+      },
+    });
+      alert("Crop Deleted Successfully");
       return response.data;
     } catch (error) {
       return console.log("error", error);
@@ -41,11 +50,13 @@ export const deleteCrop = createAsyncThunk(
 export const updateCrop = createAsyncThunk(
   "Crop/updateCrop",
   async (Crop: FormData) => {
+    const token = localStorage.getItem("jwt_token");
     try {
       const cropId = Crop.get("cropId") as string;
       const response = await api.put(`/crop/update/${cropId}`, Crop, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: token ? `Bearer ${token}` : "",
         },
       });
       return response.data;
@@ -56,8 +67,13 @@ export const updateCrop = createAsyncThunk(
 );
 
 export const getCrop = createAsyncThunk("Crop/getCrop", async () => {
+  const token = localStorage.getItem("jwt_token");
   try {
-    const response = await api.get("/crop/get");
+    const response = await api.get("/crop/get",{
+      headers: {
+        Authorization: token ? `Bearer ${token}` : "",
+      },
+    });
     console.log("response", response.data);
     return response.data;
   } catch (error) {
